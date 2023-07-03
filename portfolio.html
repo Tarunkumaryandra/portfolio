@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/Tarun logo1.png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<style>
+    body {
+  overflow: hidden;
+  font-family: 'Roboto', serif;
+  background: linear-gradient(135deg, black, #220033);
+  
+}
+
+.carousel {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.carousel-item {
+  --items: 10;
+  --width: clamp(150px, 30vw,  300px);
+  --height: clamp(200px, 40vw,  200px);
+  --x: calc(var(--active) * 800%);
+  --y: calc(var(--active) * 200%);
+  --rot: calc(var(--active) * 120deg);
+  --opacity: calc(var(--zIndex) / var(--items) * 3 - 2);
+  overflow: hidden;
+  position: absolute;
+  z-index: var(--zIndex);
+  width: var(--width);
+  height: var(--height);
+  margin: calc(var(--height) * -0.5) 0 0 calc(var(--width) * -0.5);
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  user-select: none;
+  transform-origin: 0% 100%;
+  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, .5);
+  background: black;
+  pointer-events: all;
+  transform:  translate(var(--x), var(--y)) rotate(var(--rot)) ;
+  transition: transform .8s cubic-bezier(0, 0.02, 0, 1);
+
+  .carousel-box {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity .8s cubic-bezier(0, 0.02, 0, 1);
+    opacity: var(--opacity);
+    font-family: 'Orelo-sw-db', serif;
+
+    &:before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, .5));
+    }
+  }
+
+  .title {
+    position: absolute;
+    z-index: 1;
+    color: #fff;
+    bottom: 20px;
+    left: 20px;
+    transition: opacity .8s cubic-bezier(0, 0.02, 0, 1);
+    font-size: clamp(20px, 3vw, 30px);
+    text-shadow: 0 4px 4px rgba(0, 0, 0, .1);
+  }
+
+  .num {
+    position: absolute;
+    z-index: 1;
+    color: #fff;
+    top: 10px;
+    left: 20px;
+    transition: opacity .8s cubic-bezier(0, 0.02, 0, 1);
+    font-size: clamp(20px, 10vw, 80px);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+}
+
+.layout {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 90px;
+    width: 10px;
+    height: 100%;
+    /* border: 1px solid #fff; */
+    border-top: none;
+    border-bottom: none;
+    opacity: .15;
+  }
+
+  .box {
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+    color: #fff;
+    transform-origin: 0% 10%;
+    transform: rotate(-90deg);
+    font-size: 9px;
+    line-height: 1.4;
+    text-transform: uppercase;
+    opacity: .4;
+  }
+}
+
+.logo {
+  position: absolute;
+  z-index: 2;
+  top: 28px;
+  right: 28px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: .5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orelo-sw-db', serif;
+  pointer-events: all;
+  color: black;
+  text-decoration: none;
+  font-size: 20px;
+  overflow: hidden;
+  padding-bottom: .1em;
+}
+
+.social {
+  position: absolute;
+  z-index: 10;
+  bottom: 20px;
+  right: 25px;
+  color: #fff;
+  opacity: .4;
+
+  a {
+    display: inline-block;
+    margin-left: 3px;
+  }
+
+  svg {
+    --fill: #fff;
+    width: 35px;
+    height: 35px;
+  }
+}
+
+.cursor {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  --size: 40px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .2);
+  margin: calc(var(--size) * -0.5) 0 0 calc(var(--size) * -0.5);
+  transition: transform .85s cubic-bezier(0, 0.02, 0, 1);
+  display: none;
+  pointer-events: none;
+  
+  @media (pointer: fine) {
+    display: block;
+  }
+}
+
+.cursor2 {
+  --size: 2px;
+  transition-duration: .7s;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .carousel-item {
+    --width: calc(100vw - 90px); /* Adjust the width as per your preference */
+    --height: calc(var(--width) / 1.5); /* Adjust the height based on the width to maintain aspect ratio */
+  }
+}
+
+
+
+
+.landscape-image {
+  width: 100%; /* Make the image occupy the full width of its container */
+  height: 100%; /* Maintain the image's aspect ratio */
+}
+
+
+
+
+</style>
+<body>
+    <div class="container-fluid1">
+        <div class="sky">
+            <div class="carousel">
+                <div class="carousel-item"  onclick="window.open('https://tarunkumaryandra.github.io/75-hard-react/', '_blank');">
+                    <div class="carousel-box">
+                      <div class="title">75 Hard</div>
+                      <div class="num"></div>
+                      <img src="assets/img/75-hard.png" class="landscape-image" />
+                    </div>
+                  </div>
+            
+                <div class="carousel-item"  onclick="window.open('https://tarunkumaryandra.github.io/Todolist-react/', '_blank');">
+                    <div class="carousel-box">
+                        <div class="title">Todo List</div>
+                        <div class="num"></div>
+                        <img src="assets/img/Todo-list.png" class="landscape-image" />
+                    </div>
+                </div>
+            
+                <div class="carousel-item"  onclick="window.open('https://vizagdccb.org.in/', '_blank');">
+                    <div class="carousel-box">
+                        <div class="title">DCCB</div>
+                        <div class="num"></div>
+                        <img
+                            src="assets/img/DCCB.png" class="landscape-image"  />
+                    </div>
+                </div>
+            
+                <div class="carousel-item"  onclick="window.open('https://tarunkumaryandra.github.io/Camphouse/', '_blank');">
+                    <div class="carousel-box">
+                        <div class="title">Camphouse</div>
+                        <div class="num"></div>
+                        <img src="assets/img/Camphouse .png" class="landscape-image"  />
+                    </div>
+                </div>
+            
+                <div class="carousel-item"  onclick="window.open('http://balconybirdnetsinstallation.com/', '_blank');">
+                    <div class="carousel-box">
+                        <div class="title">SafteyNets</div>
+                        <div class="num"></div>
+                        <img src="assets/img/amazing .png" class="landscape-image" />
+                    </div>
+                </div>
+            
+                <div class="carousel-item"  onclick="window.open('https://tarunkumaryandra.github.io/personalsite/', '_blank');">
+                    <div class="carousel-box">
+                        <div class="title">PersonalSite</div>
+                        <div class="num"></div>
+                        <img src="assets/img/ps.png" class="landscape-image" />
+                    </div>
+                </div>
+            
+                <div class="carousel-item">
+                    <div class="carousel-box">
+                        <div class="title"></div>
+                        <div class="num"></div>
+                        <img src="https://c4.wallpaperflare.com/wallpaper/988/889/137/simple-gradient-minimalism-wallpaper-preview.jpg" />
+                    </div>
+                </div>
+            
+                <div class="carousel-item">
+                    <div class="carousel-box">
+                        <div class="title"></div>
+                        <div class="num"></div>
+                        <img src="https://c4.wallpaperflare.com/wallpaper/988/889/137/simple-gradient-minimalism-wallpaper-preview.jpg"/>
+                    </div>
+                </div>
+            
+                <div class="carousel-item">
+                    <div class="carousel-box">
+                        <div class="title"></div>
+                        <div class="num"></div>
+                        <img src="https://c4.wallpaperflare.com/wallpaper/988/889/137/simple-gradient-minimalism-wallpaper-preview.jpg" />
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-box">
+                        <div class="title"></div>
+                        <div class="num"></div>
+                        <img src="https://c4.wallpaperflare.com/wallpaper/988/889/137/simple-gradient-minimalism-wallpaper-preview.jpg" class="landscape-image"/>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layout">
+                <div class="box" style="font-size: 20px;">Portfolio</div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="cursor"></div>
+            <div class="cursor cursor2"></div>
+         
+         
+          <div class="stars"></div>
+          <div class="stars1"></div>
+          <div class="stars2"></div>
+          <div class="stars1"></div>
+          <div class="stars2"></div>
+          
+          
+        </div>
+      </div>
+
+
+
+</body>
+<script>
+    /*--------------------
+Vars
+--------------------*/
+let progress = 50
+let startX = 0
+let active = 0
+let isDown = false
+
+/*--------------------
+Contants
+--------------------*/
+const speedWheel = 0.02
+const speedDrag = -0.1
+
+/*--------------------
+Get Z
+--------------------*/
+const getZindex = (array, index) => (array.map((_, i) => (index === i) ? array.length : array.length - Math.abs(index - i)))
+
+/*--------------------
+Items
+--------------------*/
+const $items = document.querySelectorAll('.carousel-item')
+const $cursors = document.querySelectorAll('.cursor')
+
+const displayItems = (item, index, active) => {
+  const zIndex = getZindex([...$items], active)[index]
+  item.style.setProperty('--zIndex', zIndex)
+  item.style.setProperty('--active', (index-active)/$items.length)
+}
+
+/*--------------------
+Animate
+--------------------*/
+const animate = () => {
+  progress = Math.max(0, Math.min(progress, 100))
+  active = Math.floor(progress/100*($items.length-1))
+  
+  $items.forEach((item, index) => displayItems(item, index, active))
+}
+animate()
+
+/*--------------------
+Click on Items
+--------------------*/
+$items.forEach((item, i) => {
+  item.addEventListener('click', () => {
+    progress = (i/$items.length) * 100 + 10
+    animate()
+  })
+})
+
+/*--------------------
+Handlers
+--------------------*/
+const handleWheel = e => {
+  const wheelProgress = e.deltaY * speedWheel
+  progress = progress + wheelProgress
+  animate()
+}
+
+const handleMouseMove = (e) => {
+  if (e.type === 'mousemove') {
+    $cursors.forEach(($cursor) => {
+      $cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
+    })
+  }
+  if (!isDown) return
+  const x = e.clientX || (e.touches && e.touches[0].clientX) || 0
+  const mouseProgress = (x - startX) * speedDrag
+  progress = progress + mouseProgress
+  startX = x
+  animate()
+}
+
+const handleMouseDown = e => {
+  isDown = true
+  startX = e.clientX || (e.touches && e.touches[0].clientX) || 0
+}
+
+const handleMouseUp = () => {
+  isDown = false
+}
+
+/*--------------------
+Listeners
+--------------------*/
+document.addEventListener('mousewheel', handleWheel)
+document.addEventListener('mousedown', handleMouseDown)
+document.addEventListener('mousemove', handleMouseMove)
+document.addEventListener('mouseup', handleMouseUp)
+document.addEventListener('touchstart', handleMouseDown)
+document.addEventListener('touchmove', handleMouseMove)
+document.addEventListener('touchend', handleMouseUp)
+
+
+
+window.onload = function() {
+    function createStars(n) {
+      var stars = "";
+      for (var i = 0; i < n; i++) {
+        stars += Math.floor(Math.random() * 2560) + "px " + Math.floor(Math.random() * 2560) + "px #FFF";
+        if (i !== n - 1) {
+          stars += ",";
+        }
+      }
+      return stars;
+    }
+
+    var starFieldWidth = 2560;
+    var starFieldHeight = 2560;
+    var starStartOffset = 600;
+    var starOneScrollDuration = "100s";
+    var starTwoScrollDuration = "125s";
+    var starThreeScrollDuration = "175s";
+    var numStarOneStars = 1700;
+    var numStarTwoStars = 700;
+    var numStarThreeStars = 200;
+    var numShootingStars = 10;
+
+    var starsElement = document.querySelector('.stars');
+    starsElement.style.boxShadow = createStars(numStarOneStars);
+    starsElement.style.animationDuration = starOneScrollDuration;
+
+    var stars1Element = document.querySelector('.stars1');
+    stars1Element.style.boxShadow = createStars(numStarTwoStars);
+    stars1Element.style.animationDuration = starTwoScrollDuration;
+
+    var stars2Element = document.querySelector('.stars2');
+    stars2Element.style.boxShadow = createStars(numStarThreeStars);
+    stars2Element.style.animationDuration = starThreeScrollDuration;
+
+    var shootingStarsElement = document.querySelector('.shooting-stars');
+    shootingStarsElement.style.animationDuration = "10s";
+  };
+
+
+
+</script>
+</html>

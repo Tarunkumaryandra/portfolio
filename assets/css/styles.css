@@ -53,8 +53,17 @@ section {
     font-size: 20px;
     font-family: sans-serif;
     font-weight: bold;
-    padding-top: 250px;
+    padding-top: 300px;
   }
+
+  @media (max-width: 767px) {
+    .text{
+      padding-top: 250px;
+    }
+  
+  }
+
+
   .text p{
     font-size: 18px;
     text-align: justify;
@@ -201,7 +210,7 @@ button {
   margin: 20px;
 }
 .custom-btn {
-  width: 145px;
+  width: 130px;
   height: 40px;
   color: #fff;
   border-radius: 5px;
@@ -988,7 +997,7 @@ text-align: center;
 
 
 
-
+/* contact */
 .contact-info {
   display: inline-block;
   width: 100%;
@@ -1094,3 +1103,65 @@ padding-left: 0;
 .contact-page-form form {
     padding: 20px 15px 0;
 }
+
+
+
+/* TYPING */
+
+.typing p {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  overflow: hidden;
+}
+.typing p span.typed-text {
+  font-weight: normal;
+  /* color: #dd7732; */
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+}
+.typing p span.cursor {
+  display: inline-block;
+  background-color: #ccc;
+  margin-left: 0.1rem;
+  width: 3px;
+  animation: blink 1s infinite;
+}
+.typing p span.cursor.typing {
+  animation: none;
+}
+@keyframes blink {
+  0%  { background-color: #ccc; }
+  49% { background-color: #ccc; }
+  50% { background-color: transparent; }
+  99% { background-color: transparent; }
+  100%  { background-color: #ccc; }
+}
+
+
+
+
+/* hover */
+.navbar-nav .nav-link {
+  position: relative;
+ 
+  text-decoration: none;
+  /* line-height: 24px; */
+}
+
+.navbar-nav .nav-link:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff; /* Add your desired background color */
+  transition: width 0.5s ease;
+}
+
+.navbar-nav .nav-link:hover:before {
+  width: 100%;
+}
+
